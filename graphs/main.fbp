@@ -1,0 +1,1 @@
+clock(Clock) OUT -> TIME anim(Animation) OUT -> PWM leds(Leds)

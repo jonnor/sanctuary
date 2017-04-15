@@ -12,5 +12,8 @@
     "cheerio": "^0.22.0",
     "coffeescript": "^1.12.5",
     "svg-pathdata": "^2.0.1"
+  },
+  "devDependencies": {
+    "fbp": "^1.5.0"
   }
 }
