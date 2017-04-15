@@ -4,16 +4,17 @@ struct Point {
     uint8_t y;
 };
 
+#define m_constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
+
 #ifdef HAVE_JSON11
 std::vector<Point> points_from_json(const json11::Json &json) {
     //Config config;
     json11::Json::array arr = json.array_items();
-    std::cout << "items: " << arr.size() << std::endl;
     std::vector<Point> points(arr.size());
     for (const auto& value : arr) {
-        const Point p = Point { value["x"].number_value(), value["y"].number_value() };
-        std::cout << std::to_string(p.x) << "," << std::to_string(p.y) << std::endl;
-        points.push_back(p);
+        const uint8_t x = m_constrain(value["x"].number_value(), 0, 255);
+        const uint8_t y = m_constrain(value["y"].number_value(), 0, 255);
+        points.push_back(Point { x , y });
     }
     return points;
 }
@@ -24,20 +25,47 @@ static inline int interpolate_linear(int x0, int x1, int y0, int y1, int x) {
 };
 
 int
-mapping(Point *points, size_t length, int time, int timebase, int valuebase) {
-    static const uint8_t POINT_MAX = 255; 
-    const uint8_t pointtime = time/POINT_MAX; 
-    // FIXME: error if time > timebase
-    // FIXME: error if using higher than 16bit timebase
-
+mapping(Point *points, size_t length, int time) {
     // find the relevant point
     Point previous = points[0];
     for (int i=1; i<length; i++) {
         const Point current = points[i];
-        if (pointtime > previous.x and pointtime < current.x) {
-            return interpolate_linear(previous.x, previous.y, valuebase*previous.x, valuebase*previous.x, time);
+      
+        if (time >= previous.x and time <= current.x) {
+            if (previous.x != current.x) {
+                return interpolate_linear(previous.x, current.x, previous.y, current.y, time);
+            } else {
+                return current.y; // doesn't matter which
+            }
         }
         previous = current;
     }
     return -1;
 };
+
+int test_mapping() {
+
+    std::vector<Point> points = {
+        { 0, 0 }, { 10, 10 }, { 30, 10 }, { 35, 2 }
+    };
+
+    const int zero = mapping(&points[0], points.size(), 0);
+    fprintf(stderr, "time=0 should be 0: %d\n",
+          zero);
+    assert(zero == 0);
+
+    const int onpoint = mapping(&points[0], points.size(), 10);
+    fprintf(stderr, "time=10 should be 10: %d\n",
+          onpoint);
+    assert(onpoint == 10);
+
+    const int midflat = mapping(&points[0], points.size(), 15);
+    fprintf(stderr, "time=15 should be 10: %d\n",
+          midflat);
+    assert(midflat == 10);
+
+    const int midslope = mapping(&points[0], points.size(), 5);
+    fprintf(stderr, "time=5 should be 5: %d\n",
+          midslope);
+    assert(midslope == 5);
+}

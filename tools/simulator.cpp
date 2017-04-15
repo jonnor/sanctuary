@@ -24,6 +24,8 @@ std::string read_file(std::string filename) {
 int
 main(int argc, char *argv[]) {
 
+    test_mapping();
+
     if (argc > 2) {
         std::cerr << "Usage: simulator <points.json>" << std::endl;
         exit(1);
@@ -38,10 +40,8 @@ main(int argc, char *argv[]) {
     std::string parse_error;
     auto json = json11::Json::parse(data, parse_error);
     auto points = points_from_json(json);
-    const int xmax = 30;
-    const int ymax = 100;
-    for (int i=0; i<xmax; i++) {
-        int v = mapping(&points[0], points.size(), i, xmax, ymax);
+    for (int i=0; i<255; i+=5) {
+        const int v = mapping(&points[0], points.size(), i);
         std::cout << v << std::endl;
     }
 }
