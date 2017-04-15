@@ -1,7 +1,7 @@
 
 struct Point {
-    uint8_t x;
-    uint8_t y;
+    uint16_t x;
+    uint16_t y;
 };
 
 #define m_constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
@@ -10,10 +10,11 @@ struct Point {
 std::vector<Point> points_from_json(const json11::Json &json) {
     //Config config;
     json11::Json::array arr = json.array_items();
-    std::vector<Point> points(arr.size());
+    std::vector<Point> points;
+    static const uint32_t POINT_MAX = 15000;
     for (const auto& value : arr) {
-        const uint8_t x = m_constrain(value["x"].number_value(), 0, 255);
-        const uint8_t y = m_constrain(value["y"].number_value(), 0, 255);
+        const int x = m_constrain(value["x"].number_value(), 0, POINT_MAX);
+        const int y = m_constrain(value["y"].number_value(), 0, POINT_MAX);
         points.push_back(Point { x , y });
     }
     return points;

@@ -35,12 +35,17 @@ main(int argc, char *argv[]) {
     std::cout << "path: " << path << std::endl; 
 
     auto data = read_file(path);
-    std::cout << "data: " << data << std::endl;
     
     std::string parse_error;
     auto json = json11::Json::parse(data, parse_error);
     auto points = points_from_json(json);
-    for (int i=0; i<255; i+=5) {
+    const int max = points[points.size()-1].x;
+    //for (const auto &p : points) {
+    //    std::cout << "p: " << p.x << "," << p.y << std::endl;
+    //}
+    std::cout << "max: " << max << std::endl;
+    const int samples = 30;
+    for (int i=0; i<max; i+=(max/samples)) {
         const int v = mapping(&points[0], points.size(), i);
         std::cout << v << std::endl;
     }
