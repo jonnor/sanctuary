@@ -1,0 +1,16 @@
+{
+  "name": "sanctuary",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "coffeescript": "^1.12.5",
+    "svg-pathdata": "^2.0.1"
+  }
+}
