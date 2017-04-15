@@ -11,6 +11,8 @@ findPaths = (svg) ->
   return paths
 
 pathDataToPoints = (data) ->
+  throw new Error "Data '#{data}' is not a string" if typeof data != 'string'
+
   path = new SVGPathData data
     .toAbs()
     .normalizeHVZ()
@@ -18,11 +20,28 @@ pathDataToPoints = (data) ->
   throw new Error 'First command must be a move' if move.type != SVGPathData.MOVE_TO
   unsupported = lines.filter (cmd) -> cmd.type != SVGPathData.LINE_TO
   throw new Error "Only straigth lines are supported. Found: #{unsupported}" if unsupported.length
-  return path.commands.map (line) ->
-    point =
-      x: line.x - move.x
-      y: -(line.y - move.y) # Y-axis is downwards in SVG? We want positive Y upwards
-    return point
+  goingRight = move.x < lines[0].x
+  if goingRight
+    points = path.commands.map (line) ->
+      # Y-axis is downwards in SVG? We want positive Y upwards
+      point =
+        x: line.x - move.x
+        y: -(line.y - move.y)
+      return point
+  else
+    path.commands.reverse()
+    points = path.commands.map (line) ->
+      # Y-axis is downwards in SVG? We want positive Y upwards
+      point =
+        x: move.x - line.x
+        y:  -(line.y - move.y)
+      return point
+  points = points.sort (a, b) -> a.x - b.x
+  #points = points.map (p) ->
+  #  p.x = p.x - points[0].x
+  #  return p
+  return points
+
 
 main = () ->
   [node, script, svgpath] = process.argv
