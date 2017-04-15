@@ -35,7 +35,7 @@ main = () ->
     if err
       console.error err
       process.exit 2
-    console.log data
+    console.log JSON.stringify(data, null, 2)
 
   fs.readFile svgpath, 'utf-8', (err, contents) ->
     return callback err if err
