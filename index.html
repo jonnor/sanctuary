@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sancturary</title>
+  </head>
+  <body>
+    <object id="logo" type="image/svg+xml" data="./data/door.svg">No SVG support!</object>
+
+  <script type="text/javascript">
+  var setBrightness = function(brightness) {
+      var svg = document.getElementById("logo").contentDocument;
+      var logo = svg.getElementById("grouped");
+      logo.setAttributeNS(null, 'opacity', brightness.toString());
+  }
+
+  var onLoad = function() {
+
+  }
+  window.addEventListener('load', onLoad, false);
+  </script>
+
+  <style>
+  body {
+    background-color: black;
+  }
+  </style>
+  </body>
+
+</html>
