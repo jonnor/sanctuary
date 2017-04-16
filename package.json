@@ -9,9 +9,15 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.3.0",
     "cheerio": "^0.22.0",
     "coffeescript": "^1.12.5",
-    "svg-pathdata": "^2.0.1"
+    "mqtt": "^2.6.2",
+    "msgflo": "^0.10.10",
+    "msgflo-nodejs": "^0.10.1",
+    "serialport": "^4.0.7",
+    "svg-pathdata": "^2.0.1",
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "fbp": "^1.5.0"
