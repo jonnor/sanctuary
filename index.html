@@ -11,8 +11,17 @@
   <script type="text/javascript">
   var setBrightness = function(brightness) {
       var svg = document.getElementById("logo").contentDocument;
-      var logo = svg.getElementById("grouped");
-      logo.setAttributeNS(null, 'opacity', brightness.toString());
+      var groups = Array.from(svg.getElementsByTagName('g'));
+      var layers = groups.filter(function(e) {
+        var label = e.getAttribute('inkscape:label');
+        var toChange = label && label.indexOf('sign') == 0;
+        return toChange;
+      });
+
+      layers.map(function(l) {
+        console.log('l', l.style.opacity);
+        l.style.opacity = brightness.toString();
+      });
   }
 
   var LedParticipant = function() {
