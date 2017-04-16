@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Sanctuary</title>
+    <script src="/node_modules/msgflo-browser/dist/msgflo.js" type="text/javascript"></script>
   </head>
   <body>
     <object id="logo" type="image/svg+xml" data="./data/door.svg">No SVG support!</object>
@@ -14,8 +15,33 @@
       logo.setAttributeNS(null, 'opacity', brightness.toString());
   }
 
-  var onLoad = function() {
+  var LedParticipant = function() {
+    var def = {
+      component: "FakeLed",
+      inports: [
+        { id: "in", type: "any" }
+      ], outports: [
+        { id: "out", type: "any" }
+      ]
+    }
+    var role = 'fakeled';
 
+    var process = function(inport, indata, callback) {
+      console.log('got data', indata);
+      setLed(indata);
+      return callback('out', null, indata); 
+    }
+    var msgflo = window.msgflo;
+    var address = "mqtt://localhost";
+    var client = new msgflo.mqtt.Client(address, {});
+    return new msgflo.participant.Participant(client, def, process, role);
+  }
+
+  var onLoad = function() {
+    var p = LedParticipant();
+    p.start(function(err) {
+      console.log('started', err);
+    });
   }
   window.addEventListener('load', onLoad, false);
   </script>
