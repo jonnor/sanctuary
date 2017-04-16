@@ -24,6 +24,24 @@
       });
   }
 
+  window.isOn = false;
+
+  var parseInput = function(data) {
+    const regex = /.*capacitance: (\d+)/g;
+    m = regex.exec(data);
+    if (m) {
+      var capacitance = parseInt(m[1]);
+      console.log(capacitance);
+      if (!window.isOn && capacitance > 100) {
+        setBrightness(0.7);
+        window.isOn = true;
+      } else if (window.isOn && capacitance < 100) {
+        setBrightness(0.032);
+        window.isOn = false;
+      }
+    }
+  }; 
+
   var LedParticipant = function() {
     var def = {
       component: "FakeLed",
@@ -36,9 +54,14 @@
     var role = 'fakeled';
 
     var process = function(inport, indata, callback) {
-      console.log('got data', indata);
-      setLed(indata);
-      return callback('out', null, indata); 
+      try {
+        console.log('got data', indata);
+        parseInput(indata);
+        return callback('out', null, indata);
+      } catch (e) {
+        console.error(e);
+        return callback('error', null, e.message);
+      } 
     }
     var msgflo = window.msgflo;
     var address = "mqtt://localhost";

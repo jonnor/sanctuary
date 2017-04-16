@@ -39,5 +39,5 @@ void loop() {
     Serial.println("leds on!");
   }
   digitalWrite(io.ledPin, isOn);
-  delay(10); // FIXME: remove
+  delay(100); // FIXME: remove
 }
