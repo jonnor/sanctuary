@@ -3,6 +3,7 @@
 #include <json11.cpp>
 
 #include "../flowtrace.hpp"
+#include "../sanctuary.hpp"
 
 #include <cstdio>
 #include <vector>
@@ -43,15 +44,6 @@ std::string isotime(time_t basetime, long millis) {
     str.replace(len-1, len+4, ms.str());
     return str;
 }
-
-struct State {
-    long time;
-    uint8_t brightness;
-};
-
-struct Config {
-    const int samples = 30;
-};
 
 json11::Json
 create_flowtrace(const std::vector<State> &history,
