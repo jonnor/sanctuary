@@ -15,7 +15,7 @@ std::vector<Point> points_from_json(const json11::Json &json) {
     for (const auto& value : arr) {
         const int x = m_constrain(value["x"].number_value(), 0, POINT_MAX);
         const int y = m_constrain(value["y"].number_value(), 0, POINT_MAX);
-        points.push_back(Point { x , y });
+        points.push_back(Point { (uint16_t)x , (uint16_t)y });
     }
     return points;
 }
@@ -29,7 +29,7 @@ int
 mapping(Point *points, size_t length, int time) {
     // find the relevant point
     Point previous = points[0];
-    for (int i=1; i<length; i++) {
+    for (unsigned int i=1; i<length; i++) {
         const Point current = points[i];
       
         if (time >= previous.x and time <= current.x) {
@@ -69,4 +69,5 @@ int test_mapping() {
     fprintf(stderr, "time=5 should be 5: %d\n",
           midslope);
     assert(midslope == 5);
+    return 0;
 }

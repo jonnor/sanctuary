@@ -112,7 +112,7 @@ main(int argc, char *argv[]) {
     for (int i=0; i<max; i+=(max/config.samples)) {
         const int time = i;
         const int v = mapping(&points[0], points.size(), time);
-        auto s = State { time: time, brightness: v };
+        auto s = State { time: time, brightness: (uint8_t)v };
         history.push_back(s);
     }
 
