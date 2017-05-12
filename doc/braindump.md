@@ -1,6 +1,12 @@
 
 ## TODO
 
+### Tooling
+
+* Write up animation to manipulate the design
+* Make everything autorefresh on change
+* Make an editor for changing the parameters in browser
+
 ### Proof of Concept
 
 Procure
@@ -22,13 +28,6 @@ Software
 Design
 
 * Just wing it by hand?
-
-### Tooling
-
-* Output flowtrace of animation playback
-* Create flowtrace visualizer. 
-* Write up animation to manipulate the design
-* Make everything autorefresh on change
 
 ## Original notes
 
