@@ -3,10 +3,18 @@
   <head>
     <meta charset="utf-8">
     <title>Sanctuary</title>
+
     <script src="/node_modules/msgflo-browser/dist/msgflo.js" type="text/javascript"></script>
+    <script src="/node_modules/flowtrace/browser/flowtrace.js" type="text/javascript"></script> 
+
+    <script src="/tools/visualization.coffee" type="text/coffeescript"></script>
+
+    <script src="http://coffeescript.org/v2/browser-compiler/coffeescript.js" type="text/javascript"></script>
   </head>
   <body>
-    <object id="logo" type="image/svg+xml" data="./data/door.svg">No SVG support!</object>
+    <object style='display:none' id="logo" type="image/svg+xml" data="./data/door.svg">No SVG support!</object>
+
+    <canvas id='out' height='255px' width='600px'></canvas>
 
   <script type="text/javascript">
   var setBrightness = function(brightness) {
@@ -75,7 +83,7 @@
       console.log('started', err);
     });
   }
-  window.addEventListener('load', onLoad, false);
+  //window.addEventListener('load', onLoad, false);
   </script>
 
   <style>

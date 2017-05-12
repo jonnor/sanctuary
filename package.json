@@ -9,7 +9,7 @@
   },
   "msgflo": {
     "components": {
-        "Serial": "coffee participants/ReadSerial.coffee"
+      "Serial": "coffee participants/ReadSerial.coffee"
     }
   },
   "author": "",
@@ -27,6 +27,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "fbp": "^1.5.0"
+    "fbp": "^1.5.0",
+    "flowtrace": "0.0.12"
   }
 }
