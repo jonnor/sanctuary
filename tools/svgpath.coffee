@@ -29,12 +29,13 @@ pathDataToPoints = (data) ->
         y: -(line.y - move.y)
       return point
   else
+    endX = move.x
     path.commands.reverse()
     points = path.commands.map (line) ->
       # Y-axis is downwards in SVG? We want positive Y upwards
       point =
-        x: move.x - line.x
-        y:  -(line.y - move.y)
+        x: endX - (move.x - line.x)
+        y: move.y - line.y
       return point
   points = points.sort (a, b) -> a.x - b.x
   #points = points.map (p) ->
