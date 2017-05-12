@@ -7,7 +7,7 @@ renderSamples = (canvas, data, options) ->
 
   for i in [0...data.length]
     d = data[i]
-    x = i*10
+    x = i*5
     y = options.height-d
     ctx.fillRect x, y, 3, 3
     console.log 'rendered dot'

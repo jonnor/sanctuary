@@ -5,7 +5,7 @@ struct State {
 };
 
 struct Config {
-    const int samples = 30;
+    const int samples = 100;
 };
 
 struct Input {
